@@ -130,8 +130,8 @@ select {
   color: #FE0000;
 }
 .input.is-success {
-        border-color: green;
+        border-color: #00B050;
       }
 .input.is-danger {
-        border-color: red;
+        border-color: #FE0000;
       }

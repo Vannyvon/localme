@@ -70,6 +70,7 @@ select {
   height:60px;
   padding: 8px 12px;
   margin: 8px 0;
+  font-size: 18px;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;

@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>EMPLOYEE PHOTO</title>
+    <style>
+      /* CSS for dynamic input border colors */
+      .input.is-success {
+        border-color: green;
+      }
+      .input.is-danger {
+        border-color: red;
+      }
+    </style>
   </head>
   <body>
     <div class="wbody">
@@ -167,13 +176,13 @@
       });
 
       // Function to handle file upload
-      async function uploadFile(file) {
+      async function uploadFile(file, newFileName) {
         return new Promise((resolve, reject) => {
           const fr = new FileReader();
           fr.onload = (e) => {
             const data = e.target.result.split(",");
             const obj = {
-              fileName: file.name,
+              fileName: newFileName, // Use the new filename here
               mimeType: data[0].match(/:(\w.+);/)[1],
               data: data[1],
             };
@@ -234,7 +243,12 @@
 
           // Handle file upload if a file is selected
           if (fileInput.files.length > 0) {
-            const fileObj = await uploadFile(fileInput.files[0]);
+            // Create the new filename
+            const originalFileName = fileInput.files[0].name;
+            const fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+            const newFileName = cardInput.value + fileExtension;
+            
+            const fileObj = await uploadFile(fileInput.files[0], newFileName);
             formDataObj.fileData = fileObj; // Add file data to form data
           }
 

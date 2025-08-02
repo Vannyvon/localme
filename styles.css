@@ -1,0 +1,129 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+.lange{
+	margin: 5px 0;
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+}
+.lan{
+	padding:5px 5px 5px 5px;
+}
+.la a{
+	border: 2px solid gray;
+	border-radius: 5px;
+	padding: 4px;
+	background-color:white;
+	box-shadow: 0px 0px 5px 0px;
+	font-size:12px;
+	text-decoration:none;
+}
+.wbody {
+  width: 400px;
+  height: 400px;
+  background-color: hsl(0, 0%, 95%);
+  position: relative;
+  margin: auto;
+}
+
+.container {
+  padding: 5px;
+  justify-content: center;
+  background: #57c785;
+  background: linear-gradient(
+    90deg,
+    rgba(87, 199, 133, 1) 50%,
+    rgba(237, 221, 83, 1) 100%
+  );
+}
+.title1 {
+  font-family: khmer OS Muol light;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+}
+.title2 {
+  font-family: khmer OS content;
+  text-align: center;
+  font-size: 12px;
+}
+.pic {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.lnote {
+  font-family: khmer OS content;
+  font-size: 12px;
+  color: blue;
+}
+img {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+input[type="text"],
+select {
+  width: 100%;
+  padding: 8px 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+#form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+.controls {
+  display: inline-block;
+}
+.controls button {
+  color: white;
+  padding: 10px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btnsub {
+  background-color: #4caf50;
+  font-family: khmer OS content;
+  font-size: 12px;
+}
+.btncancel {
+  background-color: #f44336;
+  font-family: khmer OS content;
+  font-size: 12px;
+}
+.file-input {
+  display: none;
+}
+.file-label {
+  font-size: 15px;
+  width: 96%;
+  display: inline-block;
+  border: 2px solid #4d2aad;
+  border-radius: 4px;
+  padding: 5px 5px;
+  background-color: #c2eb7f;
+}
+.file-label2 {
+  font-size: 15px;
+  display: inline-block;
+  border: 2px solid #4d2aad;
+  border-radius: 4px;
+  padding: 5px 5px;
+  background-color: #6ddd6d;
+}
+.file-name {
+  font-family: khmer OS content;
+  font-size: 14px;
+  display: inline-block;
+  padding: 5px 5px;
+  color: #000000;
+}

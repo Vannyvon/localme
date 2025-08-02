@@ -4,14 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>PHOTO COLLECTION</title>
+    <title>EMPLOYEE PHOTO</title>
+    <style>
+      /* CSS for dynamic input border colors */
+      .input.is-success {
+        border-color: green;
+      }
+      .input.is-danger {
+        border-color: red;
+      }
+    </style>
   </head>
   <body>
     <div class="wbody">
       <section>
         <div class="budy">
           <div class="container">
-            <h1 class="title1">បញ្ចូលទិន្នន័យ</h1>
+            <h1 class="title1">រូបថតបុគ្គលិក</h1>
             <p class="title2">
               ទិន្នន័យរបស់អ្នកនឹងត្រូវរក្សាទុកយ៉ាងសុវត្ថិភាព
               និងប្រើប្រាស់សម្រាប់ក្រុមហ៊ុនតែប៉ុណ្ណោះ
@@ -36,54 +45,17 @@
               placeholder="សូមបំពេញលេខកាត"
               name="Client Name"
               style="font-family: khmer os content"
+              required
+              minlength="5"
+              maxlength="5"
+              pattern="[^\s]*"
             />
           </div>
+          <!-- Error message for ID card validation -->
+          <p id="id-error-message" class="help is-danger" style="color: red; font-family: khmer os content; display: none;">
+            លេខកាតមិនត្រឹមត្រូវ!
+          </p>
         </div>
-        <!--<div class="field">
-        <label class="label">ជ្រើសរើសប្រូសេស</label>
-        <div class="control">
-          <input
-            class="input"
-            type="email"
-            placeholder="Your Email"
-            name="Email"
-          />
-        </div>
-      </div> -->
-        <!-- <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input
-            class="input"
-            type="password"
-            placeholder="Your Password"
-            name="Password"
-          />
-        </div>
-      </div>
-       <div class="field">
-        <label class="label">Date of Birth</label>
-        <div class="control">
-          <input
-            class="input"
-            type="date"
-            placeholder="Your Date of Birth"
-            name="DOB"
-          />
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Gender</label>
-        <div class="control">
-          <label class="radio">
-            <input type="radio" name="Gender" value="male" /> Male
-          </label>
-          <label class="radio">
-            <input type="radio" name="Gender" value="female" /> Female
-          </label>
-        </div>
-      </div>
-    -->
         <div class="field">
           <label class="label" style="font-family: khmer os muol light"
             >ជ្រើសរើសរូបថត</label
@@ -108,6 +80,7 @@
                   name="theFile"
                   id="fileInput"
                   accept="image/*"
+                  required
                 />
                 <span class="file-cta">
                   <span class="file-icon">
@@ -126,28 +99,12 @@
               </label>
             </div>
           </div>
+          <!-- Error message for photo validation -->
+          <p id="photo-error-message" class="help is-danger" style="color: red; font-family: khmer os content; display: none;">
+            សូមជ្រើសរើសរូបថតរបស់អ្នក
+          </p>
         </div>
         <input type="hidden" name="filename" id="actualFilename" />
-
-        <!-- <div class="field">
-        <label class="label">Agree to Terms</label>
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" name="Agree To Terms" value="yes" /> I agree
-            to the terms and conditions
-          </label>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Additional Information</label>
-        <div class="control">
-          <textarea
-            class="textarea"
-            placeholder="Any additional information"
-            name="Notes"
-          ></textarea>
-        </div>
-      </div> -->
         <div class="field is-grouped">
           <div class="controls">
             <button
@@ -161,9 +118,8 @@
           </div>
           <div class="controls">
             <button
-              class="btncancel"
+              class="btncancel is-danger"
               type="button"
-              onclick="document.getElementById('form').reset(); document.getElementById('fileNameDisplay').textContent = 'មិនទាន់បានជ្រើសរើសរូបភាព';"
               style="font-family: khmer os content"
             >
               បោះបង់
@@ -183,18 +139,39 @@
       ></div>
     </div>
     <script>
-      const form = document.getElementById("form");
-      const submitButton = document.getElementById("submit-button");
-      const messageDiv = document.getElementById("message");
+      // File name display and reset text
+      const NO_FILE_SELECTED_TEXT = "មិនទាន់បានជ្រើសរើសរូបភាព";
       const fileInput = document.getElementById("fileInput");
       const fileNameDisplay = document.getElementById("fileNameDisplay");
+      const form = document.getElementById("form");
+      const submitButton = document.getElementById("submit-button");
+      const cancelButton = form.querySelector("button.is-danger");
+      const messageDiv = document.getElementById("message");
+      const cardInput = form.querySelector("input[name='Client Name']");
+      const idErrorMessage = document.getElementById("id-error-message");
+      const photoErrorMessage = document.getElementById("photo-error-message");
 
       // Update displayed filename on file selection
       fileInput.addEventListener("change", function () {
         if (this.files && this.files.length > 0) {
           fileNameDisplay.textContent = this.files[0].name;
+          photoErrorMessage.style.display = "none"; // Hide error message if a file is selected
         } else {
-          fileNameDisplay.textContent = "No file selected";
+          fileNameDisplay.textContent = NO_FILE_SELECTED_TEXT;
+        }
+      });
+
+      // Live validation for card number input with visual feedback and message
+      cardInput.addEventListener("input", function() {
+        const hasSpaces = /\s/.test(this.value);
+        if (this.value.length === 5 && !hasSpaces) {
+          this.classList.add("is-success");
+          this.classList.remove("is-danger");
+          idErrorMessage.style.display = "none"; // Hide error message
+        } else {
+          this.classList.add("is-danger");
+          this.classList.remove("is-success");
+          idErrorMessage.style.display = "block"; // Show error message
         }
       });
 
@@ -217,6 +194,35 @@
       }
 
       form.addEventListener("submit", async function (e) {
+        // Prevent default submission and check all validations
+        let isValid = true;
+        
+        // Custom validation check for file input
+        if (fileInput.files.length === 0) {
+          photoErrorMessage.style.display = "block";
+          isValid = false;
+        } else {
+          photoErrorMessage.style.display = "none";
+        }
+
+        // Custom validation check for card input
+        const hasSpaces = /\s/.test(cardInput.value);
+        if (cardInput.value.length !== 5 || hasSpaces) {
+          cardInput.classList.add("is-danger");
+          cardInput.classList.remove("is-success");
+          idErrorMessage.style.display = "block";
+          isValid = false;
+        } else {
+          cardInput.classList.add("is-success");
+          cardInput.classList.remove("is-danger");
+          idErrorMessage.style.display = "none";
+        }
+        
+        if (!isValid) {
+          e.preventDefault();
+          return;
+        }
+
         e.preventDefault();
 
         messageDiv.textContent = "កំពុងផ្ញើទៅ...";
@@ -261,7 +267,7 @@
             messageDiv.style.backgroundColor = "#48c78e";
             messageDiv.style.color = "white";
             form.reset();
-            fileNameDisplay.textContent = "មិនទាន់បានជ្រើសរើសរូបភាព";
+            fileNameDisplay.textContent = NO_FILE_SELECTED_TEXT;
           } else {
             throw new Error(data.message || "Submission failed");
           }
@@ -281,12 +287,14 @@
         }
       });
 
-      // Enhance cancel button to reset file input display
-      const cancelButton = form.querySelector("button.is-danger");
+      // Event listener for the cancel button
       cancelButton.addEventListener("click", function () {
         form.reset();
-        fileNameDisplay.textContent = "មិនទាន់បានជ្រើសរើសរូបភាព";
+        fileNameDisplay.textContent = NO_FILE_SELECTED_TEXT;
         messageDiv.style.display = "none";
+        photoErrorMessage.style.display = "none"; // Hide photo error message on cancel
+        idErrorMessage.style.display = "none"; // Hide new ID error message on cancel
+        cardInput.classList.remove("is-success", "is-danger");
       });
     </script>
   </body>

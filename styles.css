@@ -129,3 +129,9 @@ select {
   padding: 5px 5px;
   color: red;
 }
+.input.is-success {
+        border-color: green;
+      }
+.input.is-danger {
+        border-color: red;
+      }

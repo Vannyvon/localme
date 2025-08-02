@@ -163,7 +163,7 @@
             <button
               class="btncancel"
               type="button"
-              onclick="document.getElementById('form').reset(); document.getElementById('fileNameDisplay').textContent = 'No file selected';"
+              onclick="document.getElementById('form').reset(); document.getElementById('fileNameDisplay').textContent = 'មិនទាន់បានជ្រើសរើសរូបភាព';"
               style="font-family: khmer os content"
             >
               បោះបង់
@@ -261,7 +261,7 @@
             messageDiv.style.backgroundColor = "#48c78e";
             messageDiv.style.color = "white";
             form.reset();
-            fileNameDisplay.textContent = "No file selected";
+            fileNameDisplay.textContent = "មិនទាន់បានជ្រើសរើសរូបភាព";
           } else {
             throw new Error(data.message || "Submission failed");
           }

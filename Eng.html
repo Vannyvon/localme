@@ -4,17 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>PHOTO COLLECTION</title>
+    <title>EMPLOYEE PHOTO</title>
   </head>
   <body>
     <div class="wbody">
       <section>
         <div class="budy">
           <div class="container">
-            <h1 class="title1">PHOTO COLLECTION</h1>
+            <h1 class="title1">EMPLOYEE PHOTO</h1>
             <p class="title2">
-		Your photo will keep securely and will be use
-		in company purpose only.
+              Your photo will be kept securely and will be used for company purposes only.
             </p>
           </div>
         </div>
@@ -22,79 +21,43 @@
       <form id="form">
 	<div class="lange">
 		<label class="lan">
-			Change to: <span class="la"><a href="index.html">KH</a></span>
+			Change to: <span class="la"><a href="Eng.html">ENG</a></span>
 		</label>
 	</div>
-
         <div class="field">
           <label class="label" style="font-family: khmer os muol light"
-            >ID Card</label>
+            >លេខកាត</label
+          >
           <div class="control">
             <input
               class="input"
               type="text"
-              placeholder="Please fill your ID Card"
+              placeholder="Please fill in your ID card."
               name="Client Name"
               style="font-family: khmer os content"
+              required
+              minlength="5"
+              maxlength="5"
+              pattern="[^\s]*"
             />
           </div>
+          <!-- Error message for ID card validation -->
+          <p id="id-error-message" class="help is-danger" style="color: red; font-family: khmer os content; display: none;">
+            ID number is not correct!
+          </p>
         </div>
-        <!--<div class="field">
-        <label class="label">ជ្រើសរើសប្រូសេស</label>
-        <div class="control">
-          <input
-            class="input"
-            type="email"
-            placeholder="Your Email"
-            name="Email"
-          />
-        </div>
-      </div> -->
-        <!-- <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input
-            class="input"
-            type="password"
-            placeholder="Your Password"
-            name="Password"
-          />
-        </div>
-      </div>
-       <div class="field">
-        <label class="label">Date of Birth</label>
-        <div class="control">
-          <input
-            class="input"
-            type="date"
-            placeholder="Your Date of Birth"
-            name="DOB"
-          />
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Gender</label>
-        <div class="control">
-          <label class="radio">
-            <input type="radio" name="Gender" value="male" /> Male
-          </label>
-          <label class="radio">
-            <input type="radio" name="Gender" value="female" /> Female
-          </label>
-        </div>
-      </div>
-    -->
         <div class="field">
           <label class="label" style="font-family: khmer os muol light"
-            >Upload Your Photo</label
+            >Upload your photo</label
           ><br />
           <div class="pic">
             <label class="lnote">
-              Note: Your photo must ៖​ <br />
-              * Wear minebea uniform. <br />
-              * Company hat not require.​<br />
-              * Capture half of your body.<br />
-              * Background must clear.<br />
+              ចំណាំៈ រូបថតត្រូវ ៖​ <br />
+              Note: Your photo must ៖​
+		* Wear Minebea uniform.
+		* Company hat not required.​
+		* Capture half of your body.
+		* Background must be clear.
               ----------------------------------------------
             </label>
             <img src="./sample.png" alt="Sample Image" />
@@ -108,6 +71,7 @@
                   name="theFile"
                   id="fileInput"
                   accept="image/*"
+                  required
                 />
                 <span class="file-cta">
                   <span class="file-icon">
@@ -117,37 +81,21 @@
                     class="file-label2"
                     style="font-family: khmer os content; font-size: 13px"
                   >
-                    Choose Your Photo
+                    Choose your photo
                   </span>
                 </span>
                 <span class="file-name" id="fileNameDisplay">
-                  No photo choose
+                  No photo has been chosen.
                 </span>
               </label>
             </div>
           </div>
+          <!-- Error message for photo validation -->
+          <p id="photo-error-message" class="help is-danger" style="color: red; font-family: khmer os content; display: none;">
+            សូមជ្រើសរើសរូបថតរបស់អ្នក
+          </p>
         </div>
         <input type="hidden" name="filename" id="actualFilename" />
-
-        <!-- <div class="field">
-        <label class="label">Agree to Terms</label>
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" name="Agree To Terms" value="yes" /> I agree
-            to the terms and conditions
-          </label>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Additional Information</label>
-        <div class="control">
-          <textarea
-            class="textarea"
-            placeholder="Any additional information"
-            name="Notes"
-          ></textarea>
-        </div>
-      </div> -->
         <div class="field is-grouped">
           <div class="controls">
             <button
@@ -161,12 +109,11 @@
           </div>
           <div class="controls">
             <button
-              class="btncancel"
+              class="btncancel is-danger"
               type="button"
-              onclick="document.getElementById('form').reset(); document.getElementById('fileNameDisplay').textContent = 'No file selected';"
               style="font-family: khmer os content"
             >
-              Clear
+              Cancel
             </button>
           </div>
         </div>
@@ -183,29 +130,50 @@
       ></div>
     </div>
     <script>
-      const form = document.getElementById("form");
-      const submitButton = document.getElementById("submit-button");
-      const messageDiv = document.getElementById("message");
+      // File name display and reset text
+      const NO_FILE_SELECTED_TEXT = "No photo had been chosen";
       const fileInput = document.getElementById("fileInput");
       const fileNameDisplay = document.getElementById("fileNameDisplay");
+      const form = document.getElementById("form");
+      const submitButton = document.getElementById("submit-button");
+      const cancelButton = form.querySelector("button.is-danger");
+      const messageDiv = document.getElementById("message");
+      const cardInput = form.querySelector("input[name='Client Name']");
+      const idErrorMessage = document.getElementById("id-error-message");
+      const photoErrorMessage = document.getElementById("photo-error-message");
 
       // Update displayed filename on file selection
       fileInput.addEventListener("change", function () {
         if (this.files && this.files.length > 0) {
           fileNameDisplay.textContent = this.files[0].name;
+          photoErrorMessage.style.display = "none"; // Hide error message if a file is selected
         } else {
-          fileNameDisplay.textContent = "No file selected";
+          fileNameDisplay.textContent = NO_FILE_SELECTED_TEXT;
+        }
+      });
+
+      // Live validation for card number input with visual feedback and message
+      cardInput.addEventListener("input", function() {
+        const hasSpaces = /\s/.test(this.value);
+        if (this.value.length === 5 && !hasSpaces) {
+          this.classList.add("is-success");
+          this.classList.remove("is-danger");
+          idErrorMessage.style.display = "none"; // Hide error message
+        } else {
+          this.classList.add("is-danger");
+          this.classList.remove("is-success");
+          idErrorMessage.style.display = "block"; // Show error message
         }
       });
 
       // Function to handle file upload
-      async function uploadFile(file) {
+      async function uploadFile(file, newFileName) {
         return new Promise((resolve, reject) => {
           const fr = new FileReader();
           fr.onload = (e) => {
             const data = e.target.result.split(",");
             const obj = {
-              fileName: file.name,
+              fileName: newFileName, // Use the new filename here
               mimeType: data[0].match(/:(\w.+);/)[1],
               data: data[1],
             };
@@ -217,6 +185,35 @@
       }
 
       form.addEventListener("submit", async function (e) {
+        // Prevent default submission and check all validations
+        let isValid = true;
+        
+        // Custom validation check for file input
+        if (fileInput.files.length === 0) {
+          photoErrorMessage.style.display = "block";
+          isValid = false;
+        } else {
+          photoErrorMessage.style.display = "none";
+        }
+
+        // Custom validation check for card input
+        const hasSpaces = /\s/.test(cardInput.value);
+        if (cardInput.value.length !== 5 || hasSpaces) {
+          cardInput.classList.add("is-danger");
+          cardInput.classList.remove("is-success");
+          idErrorMessage.style.display = "block";
+          isValid = false;
+        } else {
+          cardInput.classList.add("is-success");
+          cardInput.classList.remove("is-danger");
+          idErrorMessage.style.display = "none";
+        }
+        
+        if (!isValid) {
+          e.preventDefault();
+          return;
+        }
+
         e.preventDefault();
 
         messageDiv.textContent = "Submitting...";
@@ -237,7 +234,12 @@
 
           // Handle file upload if a file is selected
           if (fileInput.files.length > 0) {
-            const fileObj = await uploadFile(fileInput.files[0]);
+            // Create the new filename
+            const originalFileName = fileInput.files[0].name;
+            const fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+            const newFileName = cardInput.value + fileExtension;
+            
+            const fileObj = await uploadFile(fileInput.files[0], newFileName);
             formDataObj.fileData = fileObj; // Add file data to form data
           }
 
@@ -257,11 +259,11 @@
           const data = await response.json();
 
           if (data.status === "success") {
-            messageDiv.textContent = data.message || "Data submitted successful!";
+            messageDiv.textContent = data.message || "Data submitted successfully!";
             messageDiv.style.backgroundColor = "#48c78e";
             messageDiv.style.color = "white";
             form.reset();
-            fileNameDisplay.textContent = "No file selected";
+            fileNameDisplay.textContent = NO_FILE_SELECTED_TEXT;
           } else {
             throw new Error(data.message || "Submission failed");
           }
@@ -281,12 +283,14 @@
         }
       });
 
-      // Enhance cancel button to reset file input display
-      const cancelButton = form.querySelector("button.is-danger");
+      // Event listener for the cancel button
       cancelButton.addEventListener("click", function () {
         form.reset();
-        fileNameDisplay.textContent = "No Photo Choose";
+        fileNameDisplay.textContent = NO_FILE_SELECTED_TEXT;
         messageDiv.style.display = "none";
+        photoErrorMessage.style.display = "none"; // Hide photo error message on cancel
+        idErrorMessage.style.display = "none"; // Hide new ID error message on cancel
+        cardInput.classList.remove("is-success", "is-danger");
       });
     </script>
   </body>
